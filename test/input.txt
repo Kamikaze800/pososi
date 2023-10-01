@@ -1,0 +1,11 @@
+FlyingCastle(29, 15, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom'], 5)
+FlyingCastle(24, 25, ['bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 6)
+FlyingCastle(29, 15, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom'], 5)
+FlyingCastle(24, 25, ['bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 6)
+FlyingCastle(24, 20, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom', 'bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 11)
+
+FlyingCastle(29, 15, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom'], 5)
+FlyingCastle(24, 25, ['bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 6)
+FlyingCastle(29, 15, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom'], 5)
+FlyingCastle(24, 25, ['bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 6)
+FlyingCastle(24, 20, ['sauna', 'cinema', 'kitchen', 'library', 'bathroom', 'bathroom', 'kitchen', 'banquet hall', 'bedroom', 'sauna', 'living room'], 11)
