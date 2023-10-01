@@ -1,20 +1,22 @@
 import itertools
+import math
 import random
 
 
 class Parallel:
     def __init__(self, *classes):
         res = []
+        mid_count = 4 # среднее кол-во уроков в день
         for i in range(5):
             shedule_day = []  # расписание на день для всех
             for klass in classes:
                 shedule_klass = []  # расписание для класса
                 ind = 0  # номер урока
-                mid_count = round(sum(klass.values()) / len(klass)) # среднее кол-во уроков в день
-                big_les = {x: y for x, y in klass if y > 2} # если уроков больше 2
+                big_les = [x for x in klass.keys() if klass[x] > 2] # если уроков больше 2
                 points = 1 # кол-во предмета в день
                 for les in klass.keys():
                     if les in big_les:
+                        points = 2
                     for j in range(points):
                         if klass[les] > 0 and len(shedule_klass) < mid_count:  # проеряем, что кол-во часов для предмета больше 0
                             les_ind = []  # уроки классов по номеру.
@@ -28,9 +30,10 @@ class Parallel:
                                 klass[les] -= 1
                                 ind += 1
                     points = 1
-                    shedule_day.append(shedule_klass)
-                res.append(shedule_day)
-                print(shedule_day)
+                shedule_day.append(shedule_klass)
+            res.append(shedule_day)
+        for i in res:
+            print(i)
 
 
 a = Parallel({'рус': 3, 'мат': 6, 'ист': 2, 'общ': 2, 'физ': 6},
