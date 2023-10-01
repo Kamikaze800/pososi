@@ -1,143 +1,82 @@
 import math
+import sys
+
+from PyQt5 import uic  # Импортируем uic
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
-class FlyingHouse:
-    def __init__(self, height, speed, rooms=1):
-        self.height = height
-        self.speed = speed
-        self.rooms = rooms
+class Calculator(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('calc.ui', self)  # Загружаем дизайн
+        self.res = ''
+        self.add_functions()
 
-    def set_route(self, sp):
-        self.sp = sp
+    def act(self):
+        # if '+' in self.res:
+        #     self.table.display(eval(self.res))
+        # else:
+        self.res = f'{eval(self.res)}' + self.sender().text()
+        # self.table.display(eval(self.res))
 
-    def print_route(self, v=1):
-        if v == 0:
-            return ''
-        elif v > self.speed:
-            v = self.speed
-        dc = {'N': '↑', 'S': '↓', 'W': '←', 'E': '→'}
-        res = ''
-        for el in self.sp:
-            res += dc[el[0]] * (int(el[1:]) // v)
-        print(res)
+    def sqrt(self):
+        self.res = f'{round(math.sqrt(int(self.res)), 1)}'
+        self.table.display(self.res)
 
-    def change_height(self, val):
-        self.height = self.height + val
-        if self.height > 100:
-            self.height = 100
-        elif self.height < 0:
-            self.height = 0
+    def eq(self):
+        self.res = f'{eval(self.res)}'
+        self.table.display(self.res)
 
-    def __str__(self):
-        return f'{type(self).__name__}({self.height}, {self.speed}, {self.rooms})'
+    def factor(self):
+        self.res = f'{math.factorial(int(self.res))}'
+        self.table.display(self.res)
 
+    def stepen(self):
+        self.res = f'{eval(self.res)}' + '**'
 
-class FlyingCastle(FlyingHouse):
-    def __init__(self, height, speed, titles, rooms=1):
-        super().__init__(height, speed, rooms)
-        self.titles = titles
+    def vyvod(self):
+        if self.table.value() == 0 or self.res[-1] in '-+*/^':
+            self.table.display(f'{self.sender().text()}')
+        else:
+            self.table.display(f'{int(self.table.value())}' + self.sender().text())
+        self.res += self.sender().text()
 
-    def __add__(self, other):
-        if isinstance(other, FlyingCastle):
-            height = min(self.height, other.height)
-            speed = math.floor((self.speed + other.speed) / 2)
-            titles = self.titles + other.titles
-            rooms = len(titles)
-            return FlyingCastle(height, speed, titles, rooms)
-        elif isinstance(other, str):
-            self.titles.append(other)
-            self.rooms = len(self.titles)
-            return self
+    def div(self):
+        self.table.display(f'{eval(self.res)}')
+        self.res = f'{eval(self.res)}' + '/'
 
-    def __str__(self):
-        return f'{type(self).__name__}({self.height}, {self.speed}, {self.titles}, {self.rooms})'
+    def dot(self):
+        self.res = str(float(f'{eval(self.res)}+"."'))
+        self.table.display(self.res)
 
-    def __repr__(self):
-        return f'{type(self).__name__}({self.height}, {self.speed}, {self.titles}, {self.rooms})'
+    def add_functions(self):
+        # self.table.display(self.btn2.text())
+        # self.btn1.clicked.connect(lambda: self.write_number(self.btn_1.text()))
+        self.btn1.clicked.connect(self.vyvod)
+        self.btn2.clicked.connect(self.vyvod)
+        self.btn3.clicked.connect(self.vyvod)
+        self.btn4.clicked.connect(self.vyvod)
+        self.btn5.clicked.connect(self.vyvod)
+        self.btn6.clicked.connect(self.vyvod)
+        self.btn7.clicked.connect(self.vyvod)
+        self.btn8.clicked.connect(self.vyvod)
+        self.btn9.clicked.connect(self.vyvod)
+        self.btn0.clicked.connect(self.vyvod)
 
-    def __lt__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed < other.speed
-            return self.height < other.height
-        return self.rooms < other.rooms
+        self.btn_plus.clicked.connect(self.act)
+        self.btn_minus.clicked.connect(self.act)
+        self.btn_mult.clicked.connect(self.act)
 
-    def __le__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed <= other.speed
-            return self.height < other.height
-        return self.rooms < other.rooms
-
-    def __eq__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed == other.speed
-            return False
-        return False
-
-    def __ne__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed != other.speed
-            return True
-        return True
-
-    def __gt__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed > other.speed
-            return self.height > other.height
-        return self.rooms > other.rooms
-
-    def __ge__(self, other):
-        if self.rooms == other.rooms:
-            if self.height == other.height:
-                return self.speed >= other.speed
-            return self.height > other.height
-        return self.rooms > other.rooms
-
-class FlyingCity:
-    def __init__(self, sp):
-        self.sp = sp
-
-    def collect(self, condition):
-        return FlyingCity(filter(condition, self.sp))
-
-    def __getitem__(self, key):
-        return self.sp[key]
-
-    def __setitem__(self, key, value):
-        self.sp[key] = value
-
-    def __len__(self):
-        return len(self.sp)
-
-    def append(self, val):
-        self.sp.append(val)
-
-    def extend(self, val):
-        self.sp.extend(val)
-
-    def pop(self, key):
-        return self.sp.pop(key)
-    def __delitem__(self, key):
-        return self.sp.pop(key)
-
-    def __iadd__(self, other):
-        self.sp += other
-        return self
+        self.btn_eq.clicked.connect(self.eq)
+        self.btn_sqrt.clicked.connect(self.sqrt)
+        self.btn_fact.clicked.connect(self.factor)
+        self.btn_pow.clicked.connect(self.stepen)
+        self.btn_div.clicked.connect(self.div)
+        self.btn_dot.clicked.connect(self.act)
 
 
-
-fc = FlyingCastle(29, 11, ['sauna', 'library'], 2)
-fh = FlyingHouse(9, 23)
-city = FlyingCity([fc, fh])
-city += [FlyingHouse(31, 16)]
-city.append(FlyingCastle(5, 16, ['gym'], 1))
-print(city)
-city1 = FlyingCity([FlyingCastle(22, 6, ['cinema', 'banquet hall'], 2),
-                    FlyingHouse(29, 23)])
-print(city1)
-print(city1.pop())
-print(len(city1))
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Calculator()
+    ex.show()
+    sys.exit(app.exec_())
