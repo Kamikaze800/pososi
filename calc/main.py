@@ -9,6 +9,7 @@ class Calculator(QWidget):
         self.layout = QVBoxLayout()
         self.secondary_label = QLabel()
         self.layout.addWidget(self.secondary_label)
+
         self.buttons = [
             ['7', '8', '9', '/'],
             ['4', '5', '6', '*'],
